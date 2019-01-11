@@ -13,7 +13,7 @@ For review- see https://bitbucket.org/agriness/python-keycloak
 
 ### Via Pypi Package:
 
-``` $ pip install python-keycloak ```
+``` $ pip install keycloak-client ```
 
 ### Manually
 

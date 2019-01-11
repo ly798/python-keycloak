@@ -896,6 +896,29 @@ class KeycloakAdmin:
                                             data=json.dumps(payload))
         return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
 
+    def delete_user_roles(self, user_id, roles):
+        # TODO: Will delete all the roles, no matter what parameter,
+        # delete all the roles first, then add the default role back
+        # get role
+        user_mappers = self.get_user_role_mappers(user_id).get('realmMappings')
+        delete_role_ids = [role.get('id') for role in roles]
+        user_roles = []
+        for mapper in user_mappers:
+            role_id = mapper.get('id')
+            if role_id in delete_role_ids:
+                continue
+            user_roles.append({
+                'id': role_id,
+                'name': mapper.get('name')
+            })
+        # remove role
+        payload = roles if isinstance(roles, list) else [roles]
+        params_path = {"realm-name": self.realm_name, "id": user_id}
+        data_raw = self.connection.raw_delete(URL_ADMIN_USER_ROLE_MAPPINGS_ASSIGN.format(**params_path),
+                                            data=json.dumps(payload))
+        # add role
+        return self.assign_user_roles(user_id, user_roles)
+
     def create_realm_role(self, role):
         """
         Create a realm role

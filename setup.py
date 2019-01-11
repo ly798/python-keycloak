@@ -6,14 +6,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='python-keycloak',
-    version='0.14.4',
-    url='https://bitbucket.org/agriness/python-keycloak',
+    name='keycloak-client',
+    version='0.15.4',
+    url='https://github.com/ly798/python-keycloak.git',
     license='The MIT License',
-    author='Marcos Pereira',
-    author_email='marcospereira.mpj@gmail.com',
+    author='liuyang',
+    author_email='liuyang@gmail.com',
     keywords='keycloak openid',
-    description=u'python-keycloak is a Python package providing access to the Keycloak API.',
+    description=u'keycloak-client(fork from python-keycloak) is a Python package providing access to the Keycloak API.',
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=['keycloak', 'keycloak.authorization', 'keycloak.tests'],

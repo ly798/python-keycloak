@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-cat << EOF > /root/.pypirc
+cat << EOF > ~/.pypirc
 [distutils]
 index-servers=pypi
 
 [pypi]
-repository=https://upload.pypi.org/legacy/
+repository = https://pypi.python.org/pypi
 username=${PYPI_USERNAME}
 password=${PYPI_PASSWORD}
 EOF
 
-python setup.py sdist upload -r pypi
+python setup.py sdist upload
