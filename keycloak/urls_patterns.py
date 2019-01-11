@@ -47,6 +47,8 @@ URL_ADMIN_USER_GROUP = "admin/realms/{realm-name}/users/{id}/groups/{group-id}"
 URL_ADMIN_USER_GROUPS = "admin/realms/{realm-name}/users/{id}/groups"
 URL_ADMIN_USER_PASSWORD = "admin/realms/{realm-name}/users/{id}/reset-password"
 URL_ADMIN_USER_STORAGE = "admin/realms/{realm-name}/user-storage/{id}/sync"
+URL_ADMIN_USER_ROLE_MAPPINGS = "admin/realms/{realm-name}/users/{id}/role-mappings"
+URL_ADMIN_USER_ROLE_MAPPINGS_ASSIGN = "admin/realms/{realm-name}/users/{id}/role-mappings/realm"
 
 URL_ADMIN_SERVER_INFO = "admin/serverinfo"
 
@@ -65,6 +67,7 @@ URL_ADMIN_CLIENT_AUTHZ_RESOURCES = "admin/realms/{realm-name}/clients/{id}/authz
 URL_ADMIN_CLIENT_CERTS = "admin/realms/{realm-name}/clients/{id}/certificates/{attr}"
 
 URL_ADMIN_REALM_ROLES = "admin/realms/{realm-name}/roles"
+URL_ADMIN_REALM_ROLE = "admin/realms/{realm-name}/roles/{role-name}"
 URL_ADMIN_REALM_IMPORT = "admin/realms"
 URL_ADMIN_IDPS = "admin/realms/{realm-name}/identity-provider/instances"
 

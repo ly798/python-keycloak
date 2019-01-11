@@ -36,7 +36,8 @@ from .urls_patterns import URL_ADMIN_SERVER_INFO, URL_ADMIN_CLIENT_AUTHZ_RESOURC
     URL_ADMIN_USER_GROUPS, URL_ADMIN_CLIENTS, URL_ADMIN_FLOWS_EXECUTIONS, URL_ADMIN_GROUPS, URL_ADMIN_USER_CLIENT_ROLES, \
     URL_ADMIN_REALM_IMPORT, URL_ADMIN_USERS_COUNT, URL_ADMIN_FLOWS, URL_ADMIN_GROUP, URL_ADMIN_CLIENT_AUTHZ_SETTINGS, \
     URL_ADMIN_GROUP_MEMBERS, URL_ADMIN_USER_STORAGE, URL_ADMIN_GROUP_PERMISSIONS, URL_ADMIN_IDPS, \
-    URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE, URL_ADMIN_USERS
+    URL_ADMIN_USER_CLIENT_ROLES_AVAILABLE, URL_ADMIN_USERS, URL_ADMIN_USER_ROLE_MAPPINGS, \
+    URL_ADMIN_USER_ROLE_MAPPINGS_ASSIGN, URL_ADMIN_REALM_ROLE
 
 
 class KeycloakAdmin:
@@ -865,3 +866,54 @@ class KeycloakAdmin:
         data_raw = self.connection.raw_post(URL_ADMIN_USER_STORAGE.format(**params_path),
                                             data=json.dumps(data), **params_query)
         return raise_error_from_response(data_raw, KeycloakGetError)
+
+    def get_user_role_mappers(self, user_id):
+        """
+        Get all roles for the user
+
+        RoleMapperResource
+        https://www.keycloak.org/docs-api/3.3/rest-api/index.html#_role_mapper_resource
+
+        :return: Keycloak server response (RoleMapperResource)
+        """
+
+        params_path = {"realm-name": self.realm_name, "id": user_id}
+        data_raw = self.connection.raw_get(URL_ADMIN_USER_ROLE_MAPPINGS.format(**params_path))
+        return raise_error_from_response(data_raw, KeycloakGetError)
+
+    def assign_user_roles(self, user_id, roles):
+        """
+        Assign a realm role to a user
+
+        :param user_id: id of user
+        :param roles: roles list or role (use RoleRepresentation)
+        :return Keycloak server response
+        """
+
+        payload = roles if isinstance(roles, list) else [roles]
+        params_path = {"realm-name": self.realm_name, "id": user_id}
+        data_raw = self.connection.raw_post(URL_ADMIN_USER_ROLE_MAPPINGS_ASSIGN.format(**params_path),
+                                            data=json.dumps(payload))
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
+
+    def create_realm_role(self, role):
+        """
+        Create a realm role
+
+        :param role: role (use RoleRepresentation)
+        :return Keycloak server response
+        """
+        params_path = {"realm-name": self.realm_name}
+        data_raw = self.connection.raw_post(URL_ADMIN_REALM_ROLES.format(**params_path),
+                                            data=json.dumps(role))
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=201)
+
+    def get_realm_role_by_name(self, name):
+        params_path = {"realm-name": self.realm_name, "role-name": name}
+        data_raw = self.connection.raw_get(URL_ADMIN_REALM_ROLE.format(**params_path))
+        return raise_error_from_response(data_raw, KeycloakGetError)
+
+    def delete_realm_role_by_name(self, name):
+        params_path = {"realm-name": self.realm_name, "role-name": name}
+        data_raw = self.connection.raw_delete(URL_ADMIN_REALM_ROLE.format(**params_path))
+        return raise_error_from_response(data_raw, KeycloakGetError, expected_code=204)
